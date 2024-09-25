@@ -1,8 +1,8 @@
-import { api } from "../config/httpClients/Axios";
+import { api } from "../config/httpClients/axios";
 
 const signUp = async (username, email, password) => {
     let data = { username, email, password };
-    const response = await api().post("Auth/register", data);
+    const response = await api().post("Auth/SignUp", data);
     if (response.data.token) {
       AddToStorage(response.data.token);
     }
@@ -11,7 +11,7 @@ const signUp = async (username, email, password) => {
 
   const signIn = async (email, password) => {
     let data = {email, password };
-    return await api().post("Auth/login", data);
+    return await api().post("Auth/SignIn", data);
 };
 
 export default {

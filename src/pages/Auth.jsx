@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
-
+import useStore from "../store";
 import Button from "../shared/Button";
-//import useStore from "../store";
+
 import { ToastContainer, toast } from "react-toastify";
 
 const Auth = () => {
-  //const { user, signIn, signUp } = useStore();
+  const { user, signIn, signUp } = useStore();
   const [authType, setAuthType] = useState("login");
 
   const {
@@ -16,16 +16,16 @@ const Auth = () => {
     formState: { errors },
   } = useForm();
 
-//   if (user?.id) {
-//     return <Navigate to="/" />;
-//   }
+  if (user?.id) {
+    return <Navigate to="/" />;
+  }
 
   const onAuthHandler = async (data) => {
     try {
       const { email, password } = data;
 
       if (authType === "login") {
-        //await signIn(email, password);
+        await signIn(email, password);
       } else {
         //await signUp(email, password);
       }
@@ -35,7 +35,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-600 to-purple-800">
+    <div className="flex justify-center items-center h-screen bg-slate-100">
       <div className="w-full max-w-md p-8 space-y-3 bg-white bg-opacity-90 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold text-center">
           {authType === "login" ? "Login" : "Sign Up"}
@@ -92,7 +92,7 @@ const Auth = () => {
             Don`t have an account?{" "}
             <button
               onClick={() => setAuthType("signup")}
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-rose-400 hover:text-blue-500"
             >
               Sign Up
             </button>

@@ -6,6 +6,9 @@ export default {
       colors: {
         background: "#f9f7ff",
       },
+      backgroundImage: {
+        'logo': "url('src/assets/main-logo.png')",
+      },
       scale: {
         '101': '1.01',
       }

@@ -3,14 +3,20 @@ import App from "./App";
 import Auth from "./pages/Auth";
 
 const routerConfig = [
-//   {
-//     Component: App,
-//     path: "/",
-//   },
+  {
+    Component: App,
+    path: "/",
+    children: [
+      // {
+      //   Component: ToDos,
+      //   path: "/",
+      // },
+    ],
+  },
   {
     Component: Auth,
-    path: "/",
-  }
+    path: "/login",
+  },
 ];
 
 const router = createBrowserRouter(routerConfig);
