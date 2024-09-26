@@ -21,9 +21,8 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <nav className="flex justify-between items-center py-5 px-12 md:px-36 bg-slate-950 text-white">
+      <nav className="flex justify-between items-center py-2  lg:px-80 bg-slate-950 text-white">
         <Link to="/" className="text-xl font-bold">
-          {/* <img className="w-100 h-50" src="src/assets/main-logo.png"></img> */}
           <div className="bg-[url('./assets/main-logo.png')] bg-cover bg-center w-52 h-14"></div>
         </Link>
         <div className="hidden md:flex">
@@ -68,8 +67,8 @@ const Layout = ({ children }) => {
           </button>
         </div>
       )}
-      <div className="flex-grow overflow-auto py-8 px-12 md:px-36 bg-background">
-        <main>{children}</main>
+      <div className="flex flex-grow overflow-auto bg-background">
+        <main className="flex-grow overflow-auto bg-background">{children}</main>
       </div>
     </div>
   );

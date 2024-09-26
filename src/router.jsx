@@ -1,16 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
 
 const routerConfig = [
   {
     Component: App,
     path: "/",
     children: [
-      // {
-      //   Component: ToDos,
-      //   path: "/",
-      // },
+      {
+        Component: Dashboard,
+        path: "/",
+      },
     ],
   },
   {
