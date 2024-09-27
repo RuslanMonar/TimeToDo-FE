@@ -21,10 +21,6 @@ export const DashboardSidebar = () => {
     }, []);
 
     const fetchProjects = async (folderId) => {
-        if (projects[folderId]) {
-            return;
-        }
-
         const { data } = await projectsGateway.getProjects(folderId);
 
         if (data) {
@@ -73,7 +69,7 @@ export const DashboardSidebar = () => {
                         </SubMenu>
                     ))
                 }
-                <SidebarFooter/>
+                <SidebarFooter fetchProjects={fetchProjects} />
             </Menu>
         </Sidebar>
     );
