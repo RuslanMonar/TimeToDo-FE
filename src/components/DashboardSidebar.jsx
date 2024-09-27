@@ -1,14 +1,15 @@
-import { Sidebar, Menu, MenuItem, SubMenu, sidebarClasses } from 'react-pro-sidebar';
-import { FaFolder, FaTasks } from "react-icons/fa";
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FaFolder } from "react-icons/fa";
+import { Menu, MenuItem, Sidebar, SubMenu, sidebarClasses } from 'react-pro-sidebar';
 import foldersGateway from '../gateways/foldersGateway';
 import projectsGateway from '../gateways/projectsGateway';
+import useStore from '../store';
 import ProjectItem from './ProjectItem';
+import SidebarFooter from './SidebarFooter';
 
 export const DashboardSidebar = () => {
-    const [folders, setFolders] = useState([]);
     const [projects, setProjects] = useState({});
-
+    const { folders, setFolders } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,9 +33,9 @@ export const DashboardSidebar = () => {
     }
 
     return (
-        <Sidebar rootStyles={{
+        <Sidebar width="300px" rootStyles={{
             [`.${sidebarClasses.container}`]: {
-                backgroundColor: 'white',
+                backgroundColor: 'white'
             },
         }}>
             <Menu
@@ -66,13 +67,13 @@ export const DashboardSidebar = () => {
                                         </MenuItem>
                                     ))
                                 ) : (
-                                    <MenuItem>Loading...</MenuItem>
+                                    <></>
                                 )
                             }
                         </SubMenu>
                     ))
                 }
-
+                <SidebarFooter/>
             </Menu>
         </Sidebar>
     );

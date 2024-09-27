@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import useStore from "../store";
-import Button from "../shared/Button";
+import {
+  Button
+} from "@material-tailwind/react";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -83,7 +85,7 @@ const Auth = () => {
               </p>
             )}
           </div>
-          <Button type="submit">
+          <Button style={{ backgroundColor: "black", color:"#64b9f6", width:"100%" }} type="submit">
             {authType === "login" ? "Login" : "Sign Up"}
           </Button>
         </form>
@@ -91,6 +93,7 @@ const Auth = () => {
           <p className="text-sm text-center">
             Don`t have an account?{" "}
             <button
+            style={{color:"#64b9f6"}}
               onClick={() => setAuthType("signup")}
               className="font-medium text-rose-400 hover:text-blue-500"
             >
