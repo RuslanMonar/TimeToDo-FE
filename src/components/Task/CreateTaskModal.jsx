@@ -8,23 +8,44 @@ import {
     Input,
     Option,
     Select,
-    Popover,
-  PopoverHandler,
-  PopoverContent,
+    Textarea
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { addDays } from 'date-fns';
+import { useEffect, useState } from "react";
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import { FaFlag } from "react-icons/fa6";
 import { RiTimerFill } from "react-icons/ri";
+import projectsGateway from "../../gateways/projectsGateway";
 
 const CreateTaskModal = ({ handleOpen, openModal }) => {
     const [title, setTilte] = useState("");
     const [tomatoCount, setTomatoCount] = useState(0);
     const [tomatoLength, setTomatoLength] = useState(25);
+    const [projects, setProjects] = useState([]);
+
+    const [state, setState] = useState([
+        {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection'
+        }
+    ]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await projectsGateway.getProjects();
+            setProjects(data);
+        }
+
+        fetchData().catch(console.error);
+    }, []);
 
     return (
         <Dialog
             open={openModal}
-            size={"xs"}
+            size={"md"}
             handler={handleOpen}
         >
             <DialogHeader>Create Task</DialogHeader>
@@ -42,32 +63,48 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                     </div>
 
 
-                    <div>
-                        <Select label="Select Priority">
-                            <Option>
-                                <div className="flex">
-                                    <FaFlag className="mr-4" color="red" />
-                                    <sapn>High</sapn>
-                                </div>
-                            </Option>
-                            <Option>
-                                <div className="flex">
-                                    <FaFlag className="mr-4" color="#F3E626" />
-                                    <sapn>Medium</sapn>
-                                </div>
-                            </Option>
-                            <Option>
-                                <div className="flex">
-                                    <FaFlag className="mr-4" color="green" />
-                                    <sapn>Low</sapn>
-                                </div>
-                            </Option>
-                            <Option>
-                                <div className="flex">
-                                    <FaFlag className="mr-4" color="gray" />
-                                    <sapn>None</sapn>
-                                </div>
-                            </Option>
+                    <div className="flex">
+                        <div className="w-[100%] mr-4">
+                            <Select label="Select Priority">
+                                <Option>
+                                    <div className="flex">
+                                        <FaFlag className="mr-4" color="red" />
+                                        <span>High</span>
+                                    </div>
+                                </Option>
+                                <Option>
+                                    <div className="flex">
+                                        <FaFlag className="mr-4" color="#F3E626" />
+                                        <span>Medium</span>
+                                    </div>
+                                </Option>
+                                <Option>
+                                    <div className="flex">
+                                        <FaFlag className="mr-4" color="green" />
+                                        <span>Low</span>
+                                    </div>
+                                </Option>
+                                <Option>
+                                    <div className="flex">
+                                        <FaFlag className="mr-4" color="gray" />
+                                        <span>None</span>
+                                    </div>
+                                </Option>
+                            </Select>
+                        </div>
+
+                        <Select label="Select Project">
+                            {
+                                projects.map(project => (
+                                    <Option>
+                                        <div className="flex">
+                                            <div className='rounded-full w-[10px] h-[10px] mr-4 ml-4 mt-1' style={{ backgroundColor: project.color }}></div>
+                                            <span>{project.title}</span>
+                                        </div>
+                                    </Option>
+                                ))
+                            }
+
                         </Select>
                     </div>
 
@@ -76,9 +113,7 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                     <div className="w-100 mt-6">
                         <div className="flex">
                             <div className="relative w-full mr-4">
-                                <div
-                                    className="absolute left-2.5 top-2.5 h-5 w-5 text-slate-600"
-                                >
+                                <div className="absolute left-2.5 top-2.5 h-5 w-5 text-slate-600">
                                     <RiTimerFill size={18} color="#64b9f6" />
                                 </div>
                                 <Input
@@ -125,7 +160,6 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                                 </div>
                             </div>
                             <Input
-                                defaultValue={25}
                                 value={tomatoLength}
                                 onChange={(e) => setTomatoLength(Number(e.target.value))}
                                 type="number"
@@ -138,7 +172,21 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                     </div>
 
 
+                    <DateRangePicker
+                        className="mt-10 mb-10"
+                        onChange={item => { setState([item.selection]); console.log([item.selection]) }}
+                        showSelectionPreview={true}
+                        moveRangeOnFirstSelection={false}
+                        months={2}
+                        ranges={state}
+                        direction="horizontal"
+                        preventSnapRefocus={true}
+                        calendarFocus="forwards"
+                    />
 
+                    <div>
+                        <Textarea label="Description" />
+                    </div>
 
                 </div>
             </DialogBody>
