@@ -83,28 +83,28 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                     <div className="flex">
                         <div className="w-[100%] mr-4">
                             <Select
-                                value={priority}
+                                value={priority.toString()}
                                 onChange={(val) => { setPriority(val) }}
                                 label="Select Priority">
-                                <Option value={"0"}>
+                                <Option key={0} value={"0"}>
                                     <div className="flex">
                                         <FaFlag className="mr-4" color="red" />
                                         <span>High</span>
                                     </div>
                                 </Option>
-                                <Option value={"1"}>
+                                <Option key={1} value={"1"}>
                                     <div className="flex">
                                         <FaFlag className="mr-4" color="#F3E626" />
                                         <span>Medium</span>
                                     </div>
                                 </Option>
-                                <Option value={"2"}>
+                                <Option key={2} value={"2"}>
                                     <div className="flex">
                                         <FaFlag className="mr-4" color="green" />
                                         <span>Low</span>
                                     </div>
                                 </Option>
-                                <Option value={"3"}>
+                                <Option key={3} value={"3"}>
                                     <div className="flex">
                                         <FaFlag className="mr-4" color="gray" />
                                         <span>None</span>
@@ -119,7 +119,7 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
                             label="Select Project">
                             {
                                 projects.map(project => (
-                                    <Option value={project.id.toString()}>
+                                    <Option key={project.id} value={project.id.toString()}>
                                         <div className="flex">
                                             <div className='rounded-full w-[10px] h-[10px] mr-4 ml-4 mt-1' style={{ backgroundColor: project.color }}></div>
                                             <span>{project.title}</span>
@@ -197,7 +197,7 @@ const CreateTaskModal = ({ handleOpen, openModal }) => {
 
                     <DateRangePicker
                         className="mt-10 mb-10"
-                        onChange={item => { setDate([item.selection]); console.log([item.selection]) }}
+                        onChange={item => { setDate([item.selection]) }}
                         showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
                         months={2}

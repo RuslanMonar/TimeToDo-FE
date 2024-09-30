@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaFolder } from "react-icons/fa";
+import { FaFolder, FaTasks } from "react-icons/fa";
 import { Menu, MenuItem, Sidebar, SubMenu, sidebarClasses } from 'react-pro-sidebar';
 import foldersGateway from '../gateways/foldersGateway';
 import projectsGateway from '../gateways/projectsGateway';
@@ -10,6 +10,7 @@ import SidebarFooter from './SidebarFooter';
 export const DashboardSidebar = () => {
     const [projects, setProjects] = useState({});
     const { folders, setFolders } = useStore();
+    const { setActiveProject } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,11 +43,18 @@ export const DashboardSidebar = () => {
                         if (level === 0)
                             return {
                                 color: disabled ? '' : 'black',
-                                backgroundColor: active ? '#fdaeae' : "white",
+                                backgroundColor: active ? '#EDEDED' : "white",
                             };
                     },
                 }}
             >
+                <MenuItem onClick={() => setActiveProject(null)} active>
+                    <div className='flex items-center'>
+                        <FaTasks style={{ minWidth: "25px", height: "25px", backgroundColor: "#64b9f6", padding: "5px" }} color='white' className='ml-[7px] mr-[13px]' />
+                        All tasks
+                    </div>
+                </MenuItem>
+                
                 {
                     folders.map(folder => (
                         <SubMenu

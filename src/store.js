@@ -6,6 +6,7 @@ import { GetUserInfoFromToken } from "./services/jwtTokenService";
 const useStore = create((set) => ({
     user: null,
     folders:[],
+    activeProject: null,
     
     setUser: (data) => set({ user: data }),
     signIn: async (email, password) => {
@@ -30,11 +31,12 @@ const useStore = create((set) => ({
       },
 
       setFolders: (data) => {
-        console.log(data);
         set(() => ({
           folders: [...data]
         }));
       },
+
+      setActiveProject: (projectId) => set({ activeProject: projectId }),
 }));
 
 export default useStore;
