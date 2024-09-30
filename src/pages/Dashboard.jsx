@@ -18,19 +18,20 @@ const Dashboard = () => {
     const { activeProject } = useStore();
 
     useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await tasksGateway.getTasks(activeProject);
-            setTasks(data);
-        }
-
-        fetchData().catch(console.error);
+        reloadTaskList().catch(console.error);
     }, [activeProject]);
+
+    const reloadTaskList = async () => {
+        const { data } = await tasksGateway.getTasks(activeProject);
+        setTasks(data);
+        setEditTaskCollapsed(true)
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await tasksGateway.getTasks(activeProject, editTaskId);
-            if(!!data){
-                setEditTaskInfo(data[0]);  
+            if (!!data) {
+                setEditTaskInfo(data[0]);
             }
         }
 
@@ -66,7 +67,7 @@ const Dashboard = () => {
                 <CreateTaskModal openModal={openCreateTask} handleOpen={handleOpenCreateTask} />
 
             </main>
-            <EditTaskSidebar task={editTaskInfo} collapsed={editTaskCollapsed} setEditTaskCollapsed={setEditTaskCollapsed} />
+            <EditTaskSidebar task={editTaskInfo} collapsed={editTaskCollapsed} setEditTaskCollapsed={setEditTaskCollapsed} reloadTaskList={reloadTaskList} />
         </div>
     );
 

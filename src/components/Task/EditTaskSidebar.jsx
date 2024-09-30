@@ -1,4 +1,5 @@
 import {
+    Button,
     IconButton,
     Input,
     Option,
@@ -10,13 +11,14 @@ import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { FaFlag } from "react-icons/fa6";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RiTimerFill } from "react-icons/ri";
 import projectsGateway from "../../gateways/projectsGateway";
+import tasksGateway from "../../gateways/tasksGateway";
 
 import { Sidebar, sidebarClasses } from 'react-pro-sidebar';
+import useStore from "../../store";
 
-const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
+const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed, reloadTaskList }) => {
     const [title, setTilte] = useState(task?.title);
     const [tomatoCount, setTomatoCount] = useState(task?.tomatoCount);
     const [priority, setPriority] = useState(task?.priority);
@@ -25,7 +27,7 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
     const [selectedProject, setSelectedProject] = useState(task?.projectId?.toString());
     const [description, setDescription] = useState(task?.description);
     const [date, setDate] = useState([]);
-
+    const { setActiveProject } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +47,7 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
                     endDate: task.endDate,
                     key: 'selection'
                 }] || [])
+                
             }
         }
 
@@ -52,8 +55,10 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
     }, [task]);
 
 
-    const createTask = async () => {
-        await tasksGateway.createTask(
+    const updateTask = async () => {
+        var taskId = task.id;
+        await tasksGateway.updateTask(
+            taskId,
             title,
             parseInt(priority),
             tomatoCount,
@@ -63,6 +68,8 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
             date.at(0).endDate,
             description
         );
+        
+        reloadTaskList();
     }
 
 
@@ -80,9 +87,6 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
                     padding: collapsed ? "0px" : "30px"
                 },
             }}>
-                <div className="flex justify-end mb-5 cursor-pointer">
-                    <IoMdCloseCircleOutline size={28} onClick={() => setEditTaskCollapsed(true)} />
-                </div>
                 <div className="flex flex-between  min-w-full justify-around flex-col">
 
                     <div className="mb-[20px]">
@@ -222,7 +226,7 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
                         ranges={date}
                         direction="horizontal"
                         preventSnapRefocus={true}
-                        focusedRange={[0, 0]} 
+                        focusedRange={[0, 0]}
                         calendarFocus="forwards"
                     />
 
@@ -230,6 +234,22 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed }) => {
                         <Textarea value={description} onChange={x => setDescription(x.target.value)} label="Description" />
                     </div>
 
+                </div>
+                <div className="flex justify-end mb-5 cursor-pointer mt-16  ">
+                    <Button
+                        style={{ backgroundColor: "black", color: "#fdaeae" }}
+                        variant="filled"
+                        onClick={() => setEditTaskCollapsed(true)}
+                        className="mr-1"
+                    >
+                        <span>Close</span>
+                    </Button>
+                    <Button style={{ backgroundColor: "black", color: "#64b9f6" }}
+                        variant="filled"
+                        onClick={() => { updateTask(); }}
+                    >
+                        <span>Save Changes</span>
+                    </Button>
                 </div>
             </Sidebar>
         </div>
