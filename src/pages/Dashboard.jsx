@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import { MdAddTask } from "react-icons/md";
 import { DashboardSidebar } from "../components/DashboardSidebar";
 import CreateTaskModal from "../components/Task/CreateTaskModal";
-import EditTask from "../components/Task/EditTask";
+import EditTaskSidebar from "../components/Task/EditTaskSidebar";
 import Task from "../components/Task/Task";
 import tasksGateway from "../gateways/tasksGateway";
 import useStore from "../store";
 
 const Dashboard = () => {
     const [openCreateTask, setOpenCreateTask] = useState(false);
+    const [editTaskCollapsed, setEditTaskCollapsed] = useState(true);
+    const [editTaskId, setEditTaskId] = useState(false);
+    const [editTaskInfo, setEditTaskInfo] = useState(false);
     const [tasks, setTasks] = useState([]);
     const handleOpenCreateTask = (value) => setOpenCreateTask(value);
     const { activeProject } = useStore();
@@ -23,10 +26,21 @@ const Dashboard = () => {
         fetchData().catch(console.error);
     }, [activeProject]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await tasksGateway.getTasks(activeProject, editTaskId);
+            if(!!data){
+                setEditTaskInfo(data[0]);  
+            }
+        }
+
+        fetchData().catch(console.error);
+    }, [editTaskId]);
+
     return (
         <div style={{ display: 'flex', height: '100%' }}>
             <DashboardSidebar />
-            
+
             <main className="bg-slate-100" style={{ padding: 10, width: "100%" }}>
                 <div className="flex justify-center pt-12 flex-col items-center">
                     <Button
@@ -39,15 +53,20 @@ const Dashboard = () => {
                     </Button>
                     {
                         tasks.map(task => (
-                            <Task key={task.id} task={task} />
+                            <Task
+                                setEditTaskCollapsed={setEditTaskCollapsed}
+                                editTaskCollapsed={editTaskCollapsed}
+                                setEditTaskId={setEditTaskId}
+                                key={task.id}
+                                task={task}
+                            />
                         ))
                     }
-
                 </div>
                 <CreateTaskModal openModal={openCreateTask} handleOpen={handleOpenCreateTask} />
 
             </main>
-            <EditTask />
+            <EditTaskSidebar task={editTaskInfo} collapsed={editTaskCollapsed} setEditTaskCollapsed={setEditTaskCollapsed} />
         </div>
     );
 
