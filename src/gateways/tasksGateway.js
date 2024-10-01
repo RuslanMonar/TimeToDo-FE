@@ -22,7 +22,6 @@ const updateTask = async (taskId, title, priority, tomatoCount, tomatoLenght, pr
 };
 
 const createTaskSession = async (taskId, sessionId, startDate, timerStart, timerPause, timerEnd, sessionDurationMinutes, isFullItteration) => {
-  console.log({ taskId, sessionId, startDate, timerStart, timerPause, timerEnd, sessionDurationMinutes, isFullItteration })
   return await api().post("Tasks/CreateTaskSession", { taskId, sessionId, startDate, timerStart, timerPause, timerEnd, sessionDurationMinutes, isFullItteration });
 };
 

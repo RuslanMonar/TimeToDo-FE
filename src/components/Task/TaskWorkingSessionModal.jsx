@@ -18,7 +18,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
     const [sessionPause, setSessionPause] = useState(false);
     const [sessionGuid, setSessionGuid] = useState();
     const [timerStart, setTimerStart] = useState();
-    const [timerPause, settimerPause] = useState();
+    const [timerPause, setTimerPause] = useState();
     const [timerEnd, setTimerEnd] = useState();
 
     const {
@@ -39,7 +39,6 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
         time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
         restart(time, false);
         setSessionGuid(generateGuid());
-        console.log(sessionGuid)
     }, [handleOpen])
 
     const getPriorityColor = (priority, isYellow) => {
@@ -115,7 +114,16 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
 
         sendRequest().catch(console.error);
     }
+    useEffect(() => {
+        if (timerPause) { // Ensure we only send request when timerPause is updated
+            createTaskSession();
+        }
+    }, [timerPause]);
 
+    const handlePause = () => {
+        pause();
+        setTimerPause(new Date());
+    };
     return (
         <div>
             <Dialog style={{ height: "-webkit-fill-available", justifyContent: "center" }} className="flex items-center" size="xxl" open={open} handler={handleOpen}>
@@ -175,10 +183,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             variant="filled"
                             className="mr-4 border-4"
                             style={{ backgroundColor: "black", color: "#fdaeae", borderColor: "#fdaeae" }}
-                            onClick={() => {
-                                pause();
-                                createTaskSession();
-                            }}>
+                            onClick={handlePause}>
                             <div className="flex items-center">
                                 Pause
                                 <FaPause size={22} className="ml-2" />
