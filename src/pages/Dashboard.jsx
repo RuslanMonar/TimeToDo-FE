@@ -5,6 +5,7 @@ import { DashboardSidebar } from "../components/DashboardSidebar";
 import CreateTaskModal from "../components/Task/CreateTaskModal";
 import EditTaskSidebar from "../components/Task/EditTaskSidebar";
 import Task from "../components/Task/Task";
+import TaskWorkingSessionModal from "../components/Task/TaskWorkingSessionModal";
 import tasksGateway from "../gateways/tasksGateway";
 import useStore from "../store";
 
@@ -14,6 +15,8 @@ const Dashboard = () => {
     const [editTaskId, setEditTaskId] = useState(false);
     const [editTaskInfo, setEditTaskInfo] = useState(false);
     const [tasks, setTasks] = useState([]);
+    const [openWorkingSession, setOpenWorkingSession] = useState(false);
+    const handleOpenWorkingSession = () => setOpenWorkingSession(!openWorkingSession);
     const handleOpenCreateTask = (value) => setOpenCreateTask(value);
     const { activeProject } = useStore();
 
@@ -44,6 +47,7 @@ const Dashboard = () => {
 
             <main className="bg-slate-100" style={{ padding: 10, width: "100%" }}>
                 <div className="flex justify-center pt-12 flex-col items-center">
+
                     <Button
                         style={{ backgroundColor: "black", color: "#64b9f6", borderColor: "#64b9f6" }}
                         className="flex items-center gap-3 justify-center w-[30%] text-base border-4"
@@ -52,6 +56,7 @@ const Dashboard = () => {
                         <MdAddTask size={32} />
                         Add New Task
                     </Button>
+
                     {
                         tasks.map(task => (
                             <Task
@@ -63,9 +68,13 @@ const Dashboard = () => {
                             />
                         ))
                     }
+                    <Button onClick={() => handleOpenWorkingSession()} variant="gradient">
+                        Open Modal
+                    </Button>
                 </div>
-                <CreateTaskModal openModal={openCreateTask} handleOpen={handleOpenCreateTask} />
 
+                <CreateTaskModal openModal={openCreateTask} handleOpen={handleOpenCreateTask} />
+                <TaskWorkingSessionModal open={openWorkingSession} handleOpen={handleOpenWorkingSession}/>
             </main>
             <EditTaskSidebar task={editTaskInfo} collapsed={editTaskCollapsed} setEditTaskCollapsed={setEditTaskCollapsed} reloadTaskList={reloadTaskList} />
         </div>

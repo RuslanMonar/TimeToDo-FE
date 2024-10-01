@@ -35,7 +35,6 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed, reloadTaskList
             setProjects(data);
 
             if (task) {
-                console.log(task.projectId?.toString())
                 setTilte(task.title || "");
                 setTomatoCount(task.tomatoCount || 0);
                 setPriority(task.priority || 0);
@@ -43,8 +42,8 @@ const EditTaskSidebar = ({ task, collapsed, setEditTaskCollapsed, reloadTaskList
                 setSelectedProject(task.projectId?.toString() || "");
                 setDescription(task.description || "");
                 setDate([{
-                    startDate: task.startDate,
-                    endDate: task.endDate,
+                    startDate: new Date(task.startDate),
+                    endDate: new Date(task.endDate),
                     key: 'selection'
                 }] || [])
                 
