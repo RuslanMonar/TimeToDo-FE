@@ -115,7 +115,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
         sendRequest().catch(console.error);
     }
     useEffect(() => {
-        if (timerPause) { // Ensure we only send request when timerPause is updated
+        if (timerPause) {
             createTaskSession();
         }
     }, [timerPause]);

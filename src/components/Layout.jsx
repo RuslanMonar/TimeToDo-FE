@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import useStore from "../store";
 
@@ -25,6 +25,11 @@ const Layout = ({ children }) => {
         <Link to="/" className="text-xl font-bold">
           <div className="bg-[url('./assets/main-logo.png')] bg-cover bg-center w-52 h-14"></div>
         </Link>
+        <div className="flex space-x-4">
+          <Link to="/statistics" className="text-white hover:underline">
+            Statistics
+          </Link>
+        </div>
         <div className="hidden md:flex">
           <button onClick={handleToggle} className="relative">
             {`Hello, ${user?.name}`}
