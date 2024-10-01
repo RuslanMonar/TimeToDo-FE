@@ -5,7 +5,7 @@ import {
     DialogFooter,
     DialogHeader,
 } from "@material-tailwind/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaFlag, FaPause } from "react-icons/fa6";
 import { GrResume } from "react-icons/gr";
 import { IoMdCloseCircleOutline } from "react-icons/io";
@@ -14,11 +14,8 @@ import { VscDebugRestart } from "react-icons/vsc";
 import { useTimer } from 'react-timer-hook';
 
 const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
-
-    function minutesToSeconds(minutes) {
-        console.log(minutes * 60)
-        return minutes * 60;
-    }
+    const [sessionPause, setSessionPause] = useState(false);
+    const [sessionGuid, setSessionGuid] = useState();
 
     const {
         totalSeconds,
@@ -31,13 +28,14 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
         pause,
         resume,
         restart,
-    } = useTimer({ expiryTimestamp: new Date(), onExpire: () => console.warn('onExpire called') });
+    } = useTimer({ expiryTimestamp: new Date(), onExpire: () => startPause() });
 
     useEffect(() => {
         const time = new Date();
         time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
-        restart(time);
-        pause();
+        restart(time, false);
+        setSessionGuid(generateGuid());
+        console.log(sessionGuid)
     }, [handleOpen])
 
     const getPriorityColor = (priority, isYellow) => {
@@ -57,6 +55,28 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
             return "gray"
         }
     };
+
+    const startPause = () => {
+        var time = new Date();
+        if (sessionPause) {
+            setSessionPause(false);
+            time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
+            restart(time, false);
+        }
+        else {
+            setSessionPause(true);
+            time.setSeconds(time.getSeconds() + minutesToSeconds(5));
+            restart(time, false);
+        }
+    }
+
+    const minutesToSeconds = (minutes) => minutes * 60;
+
+    const generateGuid = () => {
+        return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+            (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+        );
+    }
 
     return (
         <div>
@@ -106,7 +126,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             variant="filled"
                             className="mr-4 border-4"
                             style={{ backgroundColor: "black", color: "#64b9f6", borderColor: "#64b9f6" }}
-                            onClick={start}>
+                            onClick={() => { start(); console.log(sessionPause) }}>
                             <div className="flex items-center">
                                 Start
                                 <MdOutlinePlayCircleOutline size={22} className="ml-2" />
