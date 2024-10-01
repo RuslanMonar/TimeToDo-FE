@@ -5,16 +5,20 @@ import {
     DialogFooter,
     DialogHeader,
 } from "@material-tailwind/react";
-import { FaPause } from "react-icons/fa6";
+import { useEffect } from "react";
+import { FaFlag, FaPause } from "react-icons/fa6";
 import { GrResume } from "react-icons/gr";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlinePlayCircleOutline } from "react-icons/md";
 import { VscDebugRestart } from "react-icons/vsc";
 import { useTimer } from 'react-timer-hook';
 
-const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
-    const time = new Date();
-    time.setSeconds(time.getSeconds() + 600); // 10 minutes timer
+const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
+
+    function minutesToSeconds(minutes) {
+        console.log(minutes * 60)
+        return minutes * 60;
+    }
 
     const {
         totalSeconds,
@@ -27,16 +31,51 @@ const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
         pause,
         resume,
         restart,
-    } = useTimer({ expiryTimestamp: time, onExpire: () => console.warn('onExpire called') });
+    } = useTimer({ expiryTimestamp: new Date(), onExpire: () => console.warn('onExpire called') });
 
+    useEffect(() => {
+        const time = new Date();
+        time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
+        restart(time);
+        pause();
+    }, [handleOpen])
+
+    const getPriorityColor = (priority, isYellow) => {
+        if (priority == 0) {
+            return "red"
+        }
+        if (priority == 1) {
+            if (isYellow) {
+                return "yellow"
+            }
+            return "#F3E626"
+        }
+        if (priority == 2) {
+            return "green"
+        }
+        if (priority == 3) {
+            return "gray"
+        }
+    };
 
     return (
         <div>
             <Dialog style={{ height: "-webkit-fill-available", justifyContent: "center" }} className="flex items-center" size="xxl" open={open} handler={handleOpen}>
-                <DialogHeader>Its a simple modal.</DialogHeader>
+                <DialogHeader>
+
+                    <div className="rounded-md mt-5" style={{
+                        display: 'flex', height: '40px', width: '100%', justifyContent: "center", alignItems: "center"
+                    }}>
+                        <div className="flex items-center justify-center w-[200px]">
+                            {task.title}
+                            <FaFlag className="ml-4" color={getPriorityColor(task.priority)} />
+                        </div>
+                    </div>
+
+
+                </DialogHeader>
                 <DialogBody style={{ height: "-webkit-fill-available" }}>
                     <div className="" style={{ textAlign: 'center' }}>
-                        <p>Timer Demo</p>
                         <div className="flex items-center justify-center" style={{ fontSize: '100px', width: "100%", borderColor: "#64b9f6" }}>
                             <div
                                 className="border-8 rounded-full flex items-center justify-center"
@@ -81,7 +120,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
                             onClick={pause}>
                             <div className="flex items-center">
                                 Pause
-                                <FaPause  size={22} className="ml-2" />
+                                <FaPause size={22} className="ml-2" />
                             </div>
 
                         </Button>
@@ -92,7 +131,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
                             onClick={resume}>
                             <div className="flex items-center">
                                 Resume
-                                <GrResume  size={22} className="ml-2" />
+                                <GrResume size={22} className="ml-2" />
                             </div>
                         </Button>
                         <Button
@@ -102,7 +141,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
                             onClick={() => {
                                 // Restarts to 5 minutes timer
                                 const time = new Date();
-                                time.setSeconds(time.getSeconds() + 300);
+                                time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
                                 restart(time)
                             }}>
                             <div className="flex items-center">
@@ -113,7 +152,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, expiryTimestamp }) => {
                     </div>
                 </DialogBody>
                 <DialogFooter>
-                <IoMdCloseCircleOutline className="cursor-pointer" onClick={handleOpen} size={75} color="black"/>
+                    <IoMdCloseCircleOutline className="cursor-pointer" onClick={handleOpen} size={75} color="black" />
                 </DialogFooter>
             </Dialog>
         </div>

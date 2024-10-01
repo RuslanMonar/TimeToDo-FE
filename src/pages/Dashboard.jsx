@@ -61,20 +61,17 @@ const Dashboard = () => {
                         tasks.map(task => (
                             <Task
                                 setEditTaskCollapsed={setEditTaskCollapsed}
-                                editTaskCollapsed={editTaskCollapsed}
+                                handleOpenWorkingSession={handleOpenWorkingSession}
                                 setEditTaskId={setEditTaskId}
                                 key={task.id}
                                 task={task}
                             />
                         ))
                     }
-                    <Button onClick={() => handleOpenWorkingSession()} variant="gradient">
-                        Open Modal
-                    </Button>
                 </div>
 
                 <CreateTaskModal openModal={openCreateTask} handleOpen={handleOpenCreateTask} />
-                <TaskWorkingSessionModal open={openWorkingSession} handleOpen={handleOpenWorkingSession}/>
+                <TaskWorkingSessionModal open={openWorkingSession} handleOpen={handleOpenWorkingSession} task={editTaskInfo}/>
             </main>
             <EditTaskSidebar task={editTaskInfo} collapsed={editTaskCollapsed} setEditTaskCollapsed={setEditTaskCollapsed} reloadTaskList={reloadTaskList} />
         </div>

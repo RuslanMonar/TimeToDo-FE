@@ -2,7 +2,7 @@ import { Checkbox } from "@material-tailwind/react";
 import { IoPlayCircle } from "react-icons/io5";
 import { RiTimerFill } from "react-icons/ri";
 
-const Task = ({ task, setEditTaskCollapsed, editTaskCollapsed, setEditTaskId }) => {
+const Task = ({ task, setEditTaskCollapsed, handleOpenWorkingSession, setEditTaskId }) => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -41,7 +41,7 @@ const Task = ({ task, setEditTaskCollapsed, editTaskCollapsed, setEditTaskId }) 
                     borderColor: getPriorityColor(task.priority),
                     borderWidth: "2px 2px 2px 2px"
                 }} />
-                <IoPlayCircle size={24} color="#64b9f6" className="mr-3" />
+                <IoPlayCircle onClick={() => handleOpenWorkingSession()} size={24} color="#64b9f6" className="mr-3" />
                 <span>{task.title}</span>
             </div>
             <div className="flex justify-between w-[25%]">
