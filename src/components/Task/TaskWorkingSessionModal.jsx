@@ -12,10 +12,14 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlinePlayCircleOutline } from "react-icons/md";
 import { VscDebugRestart } from "react-icons/vsc";
 import { useTimer } from 'react-timer-hook';
+import tasksGateway from "../../gateways/tasksGateway";
 
 const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
     const [sessionPause, setSessionPause] = useState(false);
     const [sessionGuid, setSessionGuid] = useState();
+    const [timerStart, setTimerStart] = useState();
+    const [timerPause, settimerPause] = useState();
+    const [timerEnd, setTimerEnd] = useState();
 
     const {
         totalSeconds,
@@ -58,6 +62,8 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
 
     const startPause = () => {
         var time = new Date();
+        var timerEnd = new Date();
+        setTimerEnd(timerEnd);
         if (sessionPause) {
             setSessionPause(false);
             time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
@@ -76,6 +82,38 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
         return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
             (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
         );
+    }
+
+    const formatTimeSpan = (date) => {
+        if (!date) return null; // Handle null case for timerPause and timerEnd
+        const d = new Date(date);
+        return [
+            String(d.getHours()).padStart(2, '0'),
+            String(d.getMinutes()).padStart(2, '0'),
+            String(d.getSeconds()).padStart(2, '0')
+        ].join(':');
+    };
+
+    const createTaskSession = () => {
+        const sendRequest = async () => {
+            var startDate = new Date();
+            const formattedTimerStart = formatTimeSpan(timerStart);
+            const formattedTimerPause = formatTimeSpan(timerPause);
+            const formattedTimerEnd = formatTimeSpan(timerEnd);
+            const sessionDuration = task.tomatoLenght - minutes;
+            await tasksGateway.createTaskSession(
+                task.id,
+                sessionGuid,
+                startDate,
+                formattedTimerStart,
+                formattedTimerPause,
+                formattedTimerEnd,
+                sessionDuration,
+                false
+            );
+        }
+
+        sendRequest().catch(console.error);
     }
 
     return (
@@ -126,7 +164,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             variant="filled"
                             className="mr-4 border-4"
                             style={{ backgroundColor: "black", color: "#64b9f6", borderColor: "#64b9f6" }}
-                            onClick={() => { start(); console.log(sessionPause) }}>
+                            onClick={() => { start(); setTimerStart(new Date()) }}>
                             <div className="flex items-center">
                                 Start
                                 <MdOutlinePlayCircleOutline size={22} className="ml-2" />
@@ -137,7 +175,10 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             variant="filled"
                             className="mr-4 border-4"
                             style={{ backgroundColor: "black", color: "#fdaeae", borderColor: "#fdaeae" }}
-                            onClick={pause}>
+                            onClick={() => {
+                                pause();
+                                createTaskSession();
+                            }}>
                             <div className="flex items-center">
                                 Pause
                                 <FaPause size={22} className="ml-2" />
@@ -159,10 +200,9 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             className="mr-4 border-4"
                             style={{ backgroundColor: "black", color: "#F3E626", borderColor: "#F3E626" }}
                             onClick={() => {
-                                // Restarts to 5 minutes timer
                                 const time = new Date();
                                 time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
-                                restart(time)
+                                restart(time);
                             }}>
                             <div className="flex items-center">
                                 Restart
