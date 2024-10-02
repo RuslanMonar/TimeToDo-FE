@@ -24,7 +24,9 @@
     "react-router-dom": "^6.26.2",
     "react-timer-hook": "^3.0.7",
     "react-toastify": "^10.0.5",
-    "zustand": "^5.0.0-rc.2"
+    "zustand": "^5.0.0-rc.2",
+    "devextreme": "24.1.4",
+    "devextreme-react": "24.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -39,6 +41,7 @@
     "globals": "^15.9.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.12",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "devextreme-themebuilder": "24.1.4"
   }
 }
