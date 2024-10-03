@@ -8,6 +8,10 @@ const getProjects = async (folderId) => {
   });
 };
 
+const GetProjectsSatistic = async () => {
+  return await api().get("Projects/GetProjectsSatistic", {});
+};
+
 
 const createFolder = async (title, color, folderId) => {
   return await api().post("Projects/", { title, color, folderId });
@@ -15,5 +19,6 @@ const createFolder = async (title, color, folderId) => {
 
 export default {
   getProjects,
-  createFolder
+  createFolder,
+  GetProjectsSatistic
 };

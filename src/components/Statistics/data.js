@@ -7,6 +7,13 @@ export default [
     },
     {
       monarch: 'George I',
+      start: new Date(1731, 7, 1),
+      house: 'Hanover',
+      end: new Date(1763, 5, 11),
+    },
+
+    {
+      monarch: 'George I',
       start: new Date(1714, 7, 1),
       house: 'Hanover',
       end: new Date(1727, 5, 11),
