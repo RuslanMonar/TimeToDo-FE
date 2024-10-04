@@ -11,19 +11,12 @@ import CenterTemplate from './CenterTemplate';
 
 const PieChart = () => {
     const [data, setData] = useState([]);
-    // const data = [
-    //     { projectId: 1, projectTitle: 'Project 1', totalHours: 21 },
-    //     { projectId: 2, projectTitle: 'Project 2', totalHours: 14 },
-    //     { projectId: 3, projectTitle: 'Project 3', totalHours: 5 },
-    //     { projectId: 4, projectTitle: 'Project 4', totalHours: 43 }
-    // ];
 
     const customizeLabel = (e) => `${e.argumentText}\n${e.valueText}h`;
 
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await projectsGateway.GetProjectsSatistic();
-            console.log(data);
             setData(data);
         }
 

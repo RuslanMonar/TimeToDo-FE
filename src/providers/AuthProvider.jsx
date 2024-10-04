@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import useStore from "../store";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import usersGateway from "../gateways/usersGateway";
+import useStore from "../store";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
     //Just to see loader
     const timer = setTimeout(() => {
       checkUserAuth();
-    }, 2000);
+    }, 1);
 
     return () => clearTimeout(timer);
 
