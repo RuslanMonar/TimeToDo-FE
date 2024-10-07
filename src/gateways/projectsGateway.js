@@ -12,6 +12,10 @@ const GetProjectsSatistic = async () => {
   return await api().get("Projects/GetProjectsSatistic", {});
 };
 
+const GetProjectsTimeline = async () => {
+  return await api().get("Projects/GetProjectsTimeline", {});
+};
+
 
 const createFolder = async (title, color, folderId) => {
   return await api().post("Projects/", { title, color, folderId });
@@ -20,5 +24,6 @@ const createFolder = async (title, color, folderId) => {
 export default {
   getProjects,
   createFolder,
-  GetProjectsSatistic
+  GetProjectsSatistic,
+  GetProjectsTimeline
 };
