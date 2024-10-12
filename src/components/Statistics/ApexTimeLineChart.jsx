@@ -12,8 +12,9 @@ const ApexTimeLineChar = () => {
                 series: transformChartData(result.data),
                 options: {
                     chart: {
-                        height: 350,
+                        height: 750,
                         type: 'rangeBar',
+                        //redrawOnWindowResize: true
                     },
                     colors: [
                         "#ff5754", // Яскраво-червоний
@@ -28,6 +29,9 @@ const ApexTimeLineChar = () => {
                     plotOptions: {
                         bar: {
                             horizontal: true,
+                            barHeight: '100%',
+                            rangeBarGroupRows: true,
+                            borderRadiusWhenStacked: 'last',
                         },
                     },
                     xaxis: {
@@ -74,7 +78,7 @@ const ApexTimeLineChar = () => {
                         options={chartData.options}
                         series={chartData.series}
                         type="rangeBar"
-                        height={350}
+                        height={550}
                     />)
             }
 
