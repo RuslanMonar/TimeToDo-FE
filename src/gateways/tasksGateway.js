@@ -1,10 +1,11 @@
 import { api } from "../config/httpClients/axios";
 
-const getTasks = async (folderId = null, taskId = null) => {
+const getTasks = async (folderId = null, taskId = null, completed) => {
     var params = {
       params: {
         projectId: folderId,
-        taskId:taskId
+        taskId:taskId,
+        completed: completed
       }
     }
   

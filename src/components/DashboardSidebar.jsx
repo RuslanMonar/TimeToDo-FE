@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FaFolder, FaTasks } from "react-icons/fa";
+import { RiTaskLine } from "react-icons/ri";
 import { Menu, MenuItem, Sidebar, SubMenu, sidebarClasses } from 'react-pro-sidebar';
 import foldersGateway from '../gateways/foldersGateway';
 import projectsGateway from '../gateways/projectsGateway';
@@ -10,7 +11,7 @@ import SidebarFooter from './SidebarFooter';
 export const DashboardSidebar = () => {
     const [projects, setProjects] = useState({});
     const { folders, setFolders } = useStore();
-    const { setActiveProject } = useStore();
+    const { setActiveProject, setShowCompleted } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,13 +49,20 @@ export const DashboardSidebar = () => {
                     },
                 }}
             >
-                <MenuItem onClick={() => setActiveProject(null)} active>
+                <MenuItem onClick={() => {setActiveProject(null); setShowCompleted(false)}} active>
                     <div className='flex items-center'>
                         <FaTasks style={{ minWidth: "25px", height: "25px", backgroundColor: "#64b9f6", padding: "5px" }} color='white' className='ml-[7px] mr-[13px]' />
                         All tasks
                     </div>
                 </MenuItem>
                 
+                <MenuItem onClick={() => {setActiveProject(null); setShowCompleted(true) }}>
+                    <div className='flex items-center'>
+                        <RiTaskLine style={{ minWidth: "25px", height: "25px", backgroundColor: "green", padding: "5px" }} color='white' className='ml-[7px] mr-[13px]' />
+                        Completed tasks
+                    </div>
+                </MenuItem>
+
                 {
                     folders.map(folder => (
                         <SubMenu
@@ -66,7 +74,7 @@ export const DashboardSidebar = () => {
                             {
                                 projects[folder.id] ? (
                                     projects[folder.id].map(project => (
-                                        <MenuItem key={project.id}>
+                                        <MenuItem onClick={() => setShowCompleted(false)} key={project.id}>
                                             <ProjectItem key={project.id} project={project} folderColor={folder.color} />
                                         </MenuItem>
                                     ))

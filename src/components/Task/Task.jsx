@@ -32,7 +32,7 @@ const Task = ({ task, setEditTaskCollapsed, handleOpenWorkingSession, setEditTas
     };
 
     return (
-        <div onClick={() => {setEditTaskCollapsed(false); setEditTaskId(task.id)}} className="rounded-md mt-5" style={{
+        <div  className="rounded-md mt-5" style={{
             display: 'flex', height: '40px', backgroundColor: "white", width: '70%', border: "1px solid", borderWidth: "0px 4px 0px 4px",
             borderColor: getPriorityColor(task.priority), justifyContent: "space-between", alignItems: "center"
         }}>
@@ -42,7 +42,7 @@ const Task = ({ task, setEditTaskCollapsed, handleOpenWorkingSession, setEditTas
                     borderWidth: "2px 2px 2px 2px"
                 }} />
                 <IoPlayCircle onClick={() => handleOpenWorkingSession()} size={24} color="#64b9f6" className="mr-3" />
-                <span>{task.title}</span>
+                <span className="cursor-pointer" onClick={() => {setEditTaskCollapsed(false); setEditTaskId(task.id)}}>{task.title}</span>
             </div>
             <div className="flex justify-between w-[25%]">
                 <div className="flex items-center">

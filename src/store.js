@@ -7,6 +7,7 @@ const useStore = create((set) => ({
     user: null,
     folders:[],
     activeProject: null,
+    showCompleted: false,
     
     setUser: (data) => set({ user: data }),
     signIn: async (email, password) => {
@@ -37,6 +38,7 @@ const useStore = create((set) => ({
       },
 
       setActiveProject: (projectId) => set({ activeProject: projectId }),
+      setShowCompleted: (showCompleted) => set({ showCompleted: showCompleted }),
 }));
 
 export default useStore;

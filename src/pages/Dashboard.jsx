@@ -18,14 +18,15 @@ const Dashboard = () => {
     const [openWorkingSession, setOpenWorkingSession] = useState(false);
     const handleOpenWorkingSession = () => setOpenWorkingSession(!openWorkingSession);
     const handleOpenCreateTask = (value) => setOpenCreateTask(value);
-    const { activeProject } = useStore();
+    const { activeProject, showCompleted } = useStore();
 
     useEffect(() => {
         reloadTaskList().catch(console.error);
-    }, [activeProject]);
+    }, [activeProject, showCompleted]);
 
     const reloadTaskList = async () => {
-        const { data } = await tasksGateway.getTasks(activeProject);
+        console.log(showCompleted)
+        const { data } = await tasksGateway.getTasks(activeProject, null, showCompleted);
         setTasks(data);
         setEditTaskCollapsed(true)
     }
