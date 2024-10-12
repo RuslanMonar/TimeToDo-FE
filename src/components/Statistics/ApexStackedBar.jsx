@@ -79,7 +79,10 @@ const ApexStackedBar = () => {
                     },
                     fill: {
                         opacity: 1
-                    }
+                    },
+                    title: {
+                        text: 'Project Focus Time by Weeks',
+                    },
                 },
             });
         }
@@ -89,7 +92,7 @@ const ApexStackedBar = () => {
 
 
     return (
-        <div className="mt-16">
+        <div className="m-16 rounded-md" style={{backgroundColor:"white"}}>
             {
                 Object.keys(chartData).length === 0 && chartData.constructor === Object ?
                     (<></>)

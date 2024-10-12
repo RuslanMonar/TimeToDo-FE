@@ -24,7 +24,7 @@ const PieChart = () => {
     }, [])
 
     return (
-        <div className="pies-container" style={{ width: "100%" }}>
+        <div  className="pies-container rounded-md" style={{ width: "100%" }}>
             {
                 data.length > 0 ?
                     (

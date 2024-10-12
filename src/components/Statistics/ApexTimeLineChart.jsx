@@ -46,7 +46,7 @@ const ApexTimeLineChar = () => {
                         position: 'top',
                     },
                     title: {
-                        text: 'Multi-series Timeline',
+                        text: 'Tasks Timeline',
                     },
                 },
             })
@@ -69,7 +69,7 @@ const ApexTimeLineChar = () => {
       };
 
     return (
-        <div>
+        <div className="m-16 rounded-md" style={{backgroundColor:"white"}}>
             {
                 Object.keys(chartData).length === 0 && chartData.constructor === Object ?
                     (<></>)
