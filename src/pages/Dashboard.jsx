@@ -25,7 +25,6 @@ const Dashboard = () => {
     }, [activeProject, showCompleted]);
 
     const reloadTaskList = async () => {
-        console.log(showCompleted)
         const { data } = await tasksGateway.getTasks(activeProject, null, showCompleted);
         setTasks(data);
         setEditTaskCollapsed(true)
@@ -66,6 +65,7 @@ const Dashboard = () => {
                                 setEditTaskId={setEditTaskId}
                                 key={task.id}
                                 task={task}
+                                reloadTaskList={reloadTaskList}
                             />
                         ))
                     }
