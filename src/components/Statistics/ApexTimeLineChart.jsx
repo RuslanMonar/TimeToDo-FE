@@ -78,7 +78,7 @@ const ApexTimeLineChar = () => {
                         options={chartData.options}
                         series={chartData.series}
                         type="rangeBar"
-                        height={550}
+                        height={750}
                     />)
             }
 

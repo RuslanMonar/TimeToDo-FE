@@ -30,10 +30,15 @@ const createTaskSession = async (taskId, sessionId, startDate, timerStart, timer
   return await api().post("Tasks/CreateTaskSession", { taskId, sessionId, startDate, timerStart, timerPause, timerEnd, sessionDurationMinutes, isFullItteration });
 };
 
+const GetRecomendations = async () => {
+return await api().get("Tasks/GetRecomendations");
+};
+
 export default {
   updateTask,
   getTasks,
   createTask,
   createTaskSession,
-  markTaskCompleted
+  markTaskCompleted,
+  GetRecomendations
 };

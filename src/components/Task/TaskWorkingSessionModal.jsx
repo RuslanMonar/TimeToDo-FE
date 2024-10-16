@@ -36,7 +36,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
 
     useEffect(() => {
         const time = new Date();
-        time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
+        time.setSeconds(time.getSeconds() + minutesToSeconds(task?.tomatoLenght));
         restart(time, false);
         setSessionGuid(generateGuid());
     }, [handleOpen])
@@ -65,7 +65,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
         setTimerEnd(timerEnd);
         if (sessionPause) {
             setSessionPause(false);
-            time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
+            time.setSeconds(time.getSeconds() + minutesToSeconds(task?.tomatoLenght));
             restart(time, false);
         }
         else {
@@ -99,9 +99,9 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
             const formattedTimerStart = formatTimeSpan(timerStart);
             const formattedTimerPause = formatTimeSpan(timerPause);
             const formattedTimerEnd = formatTimeSpan(timerEnd);
-            const sessionDuration = task.tomatoLenght - minutes;
+            const sessionDuration = task?.tomatoLenght - minutes;
             await tasksGateway.createTaskSession(
-                task.id,
+                task?.id,
                 sessionGuid,
                 startDate,
                 formattedTimerStart,
@@ -133,8 +133,8 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                         display: 'flex', height: '40px', width: '100%', justifyContent: "center", alignItems: "center"
                     }}>
                         <div className="flex items-center justify-center w-[200px]">
-                            {task.title}
-                            <FaFlag className="ml-4" color={getPriorityColor(task.priority)} />
+                            {task?.title}
+                            <FaFlag className="ml-4" color={getPriorityColor(task?.priority)} />
                         </div>
                     </div>
 
@@ -206,7 +206,7 @@ const TaskWorkingSessionModal = ({ open, handleOpen, task }) => {
                             style={{ backgroundColor: "black", color: "#F3E626", borderColor: "#F3E626" }}
                             onClick={() => {
                                 const time = new Date();
-                                time.setSeconds(time.getSeconds() + minutesToSeconds(task.tomatoLenght));
+                                time.setSeconds(time.getSeconds() + minutesToSeconds(task?.tomatoLenght));
                                 restart(time);
                             }}>
                             <div className="flex items-center">
